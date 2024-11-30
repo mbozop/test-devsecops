@@ -4,15 +4,14 @@ pipeline {
         SEMGREP_APP_TOKEN = credentials('SEMGREP_APP_TOKEN')
     }
     stages {
-        stage('Semgrep-Scan') {
+        stage('Nuclei-Scan') {
             steps {
                 bat '''
-                docker pull returntocorp/semgrep ^
+                docker pull projectdiscovery/nuclei ^
                 && docker run ^
-                -e SEMGREP_APP_TOKEN=%SEMGREP_APP_TOKEN% ^
                 -v "%cd%:/workspace" ^
                 --workdir /workspace ^
-                returntocorp/semgrep semgrep ci
+                projectdiscovery/nuclei -t /nuclei-templates -silent
                 '''
             }
         }
