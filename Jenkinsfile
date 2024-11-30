@@ -6,16 +6,16 @@ pipeline {
             steps {
                 git branch: 'main',
                     url: 'https://github.com/mbozop/test-devsecops.git',
-                    credentialsId: 'your-credentials-id'
+                    credentialsId: 'general-id'
             }
         }
 
         stage('Run Semgrep') {
             steps {
                 echo 'Running Semgrep...'
-                sh '''
+                bat '''
                 pip install semgrep
-                semgrep --config=auto --json --output semgrep-report.json || true
+                semgrep --config=auto --json --output semgrep-report.json || exit 0
                 '''
             }
         }
