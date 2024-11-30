@@ -1,17 +1,17 @@
 pipeline {
     agent any
     environment {
-        // The following variable is required for a Semgrep Cloud Platform-connected scan:
+        // Variable de entorno requerida para Semgrep Cloud
         SEMGREP_APP_TOKEN = credentials('SEMGREP_APP_TOKEN')
     }
     stages {
         stage('Semgrep-Scan') {
             steps {
-                sh '''
+                bat '''
                 docker pull returntocorp/semgrep &&
-                docker run \
-                -e SEMGREP_APP_TOKEN=$SEMGREP_APP_TOKEN \
-                -v "$(pwd):$(pwd)" --workdir $(pwd) \
+                docker run ^
+                -e SEMGREP_APP_TOKEN=%SEMGREP_APP_TOKEN% ^
+                -v "%cd%:%cd%" --workdir "%cd%" ^
                 returntocorp/semgrep semgrep ci
                 '''
             }
