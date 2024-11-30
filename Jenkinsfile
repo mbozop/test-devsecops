@@ -4,15 +4,15 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                // Clona el código desde el repositorio
-                git 'https://github.com/mbozop/test-devsecops.git'
+                git branch: 'main',
+                    url: 'https://github.com/mbozop/test-devsecops.git',
+                    credentialsId: 'your-credentials-id'
             }
         }
 
         stage('Run Semgrep') {
             steps {
-                echo 'Running Semgrep for static code analysis...'
-                // Ejecuta Semgrep con las reglas configuradas
+                echo 'Running Semgrep...'
                 sh '''
                 pip install semgrep
                 semgrep --config=auto --json --output semgrep-report.json || true
