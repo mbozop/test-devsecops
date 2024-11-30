@@ -10,8 +10,8 @@ pipeline {
                 docker pull returntocorp/semgrep ^
                 && docker run ^
                 -e SEMGREP_APP_TOKEN=%SEMGREP_APP_TOKEN% ^
-                -v "%cd%:%cd%" ^
-                --workdir "%cd%" ^
+                -v "%cd%:/workspace" ^
+                --workdir /workspace ^
                 returntocorp/semgrep semgrep ci
                 '''
             }
