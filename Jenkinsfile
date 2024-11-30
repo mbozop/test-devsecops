@@ -4,7 +4,7 @@ pipeline {
         stage("Build") {
             steps {
                 echo 'Building...'
-                echo 'Test 1'
+                echo 'Test 2'
                 // Si quieres algo más significativo en este paso, puedes agregar el comando para construir el proyecto con Maven
                 // ejemplo: sh 'mvn clean install'
             }
