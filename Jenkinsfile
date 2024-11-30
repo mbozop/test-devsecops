@@ -1,36 +1,20 @@
 pipeline {
     agent any
-
+    environment {
+        // The following variable is required for a Semgrep Cloud Platform-connected scan:
+        SEMGREP_APP_TOKEN = credentials('SEMGREP_APP_TOKEN')
+    }
     stages {
-        stage('Checkout Code') {
+        stage('Semgrep-Scan') {
             steps {
-                git branch: 'main',
-                    url: 'https://github.com/mbozop/test-devsecops.git',
-                    credentialsId: 'general-id'
-            }
-        }
-
-        stage('Run Semgrep') {
-            steps {
-                echo 'Running Semgrep...'
-                bat '''
-                pip install semgrep
-                semgrep --config=auto --json --output semgrep-report.json || exit 0
+                sh '''
+                docker pull returntocorp/semgrep &&
+                docker run \
+                -e SEMGREP_APP_TOKEN=$SEMGREP_APP_TOKEN \
+                -v "$(pwd):$(pwd)" --workdir $(pwd) \
+                returntocorp/semgrep semgrep ci
                 '''
             }
-        }
-
-        stage('Publish Reports') {
-            steps {
-                echo 'Publishing Semgrep report...'
-                archiveArtifacts artifacts: 'semgrep-report.json', allowEmptyArchive: true
-            }
-        }
-    }
-
-    post {
-        always {
-            echo 'Pipeline execution complete.'
         }
     }
 }
