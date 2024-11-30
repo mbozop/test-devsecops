@@ -15,7 +15,10 @@ pipeline {
                 && docker run ^
                 -v "%cd%:/workspace" ^
                 --workdir /workspace ^
-                projectdiscovery/nuclei -t /root/nuclei-templates -v
+                projectdiscovery/nuclei ^
+                -t /root/nuclei-templates ^
+                -headless -code -dast -file -esc ^
+                -v
                 '''
             }
         }
