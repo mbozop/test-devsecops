@@ -281,10 +281,10 @@ public class QuoteController {
                     document.add(image);
                 } catch (MalformedURLException e) {
                     // Manejo de la excepción MalformedURLException
-                    e.printStackTrace(); // Opcionalmente, puedes imprimir la traza de la excepción
+                    return ResponseEntity.status(400).body("La URL proporcionada es inválida.");
                 } catch (IOException e) {
                     // Manejo de la excepción IOException
-                    e.printStackTrace(); // Opcionalmente, puedes imprimir la traza de la excepción
+                    return ResponseEntity.status(500).body("Ocurrió un error de I/O.");
                 }
                 
                 document.add(new Paragraph("\n\n\n\n\n"));
